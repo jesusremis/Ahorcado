@@ -110,10 +110,10 @@ entry = tk.Entry(right_frame, font=("Helvetica", 14), width=2)  # Campo de texto
 entry.pack(pady=10)
 entry.bind("<Return>", lambda event: guess_letter())
 
-guess_button = tk.Button(right_frame, text="Adivinar", command=guess_letter, font=("Helvetica", 14))
+guess_button = tk.Button(right_frame, text="Adivinar letra", command=guess_letter, font=("Helvetica", 14))
 guess_button.pack(pady=10)
 
-guess_word_button = tk.Button(right_frame, text="Adivinar Palabra Completa", command=enable_word_guess, font=("Helvetica", 14))
+guess_word_button = tk.Button(right_frame, text="Adivinar palabra completa", command=enable_word_guess, font=("Helvetica", 14))
 guess_word_button.pack(pady=10)
 
 play_again_button = tk.Button(left_frame, text="Jugar de Nuevo", command=iniciar_juego, font=("Helvetica", 14))
