@@ -21,10 +21,13 @@ def obtener_palabra():
     return palabra
 
 def iniciar_juego():
-    global selected_word, guessed_word, attempts, play_again_button
+    global selected_word, guessed_word, attempts, play_again_button, guessed_letters, failed_letters, guessed_words
     selected_word = obtener_palabra()
     guessed_word = ["_" for _ in selected_word]
     attempts = 6
+    guessed_letters = []
+    failed_letters = []
+    guessed_words = []
     play_again_button.pack_forget()
     entry.config(state='normal', width=2)
     guess_button.config(state='normal')
@@ -35,6 +38,9 @@ def update_display():
     display_word.set(" ".join(guessed_word))
     display_attempts.set(f"Intentos restantes: {attempts}")
     display_message.set("")
+    display_guessed_letters.set("Letras adivinadas: " + " ".join(guessed_letters))
+    display_failed_letters.set("Letras falladas: " + " ".join(failed_letters))
+    display_guessed_words.set("Palabras falladas: " + ", ".join(guessed_words))
 
 def guess_letter():
     global attempts
@@ -46,8 +52,10 @@ def guess_letter():
             for i, char in enumerate(selected_word):
                 if unidecode(char) == unidecode(letter):
                     guessed_word[i] = char
+            guessed_letters.append(letter)
         else:
             attempts -= 1
+            failed_letters.append(letter)
     else:  # Adivinando la palabra completa
         if unidecode(letter) == unidecode(selected_word):
             for i, char in enumerate(selected_word):
@@ -55,7 +63,8 @@ def guess_letter():
         else:
             attempts -= 1
             entry.config(width=2)  # Volver a la opción de adivinar solo letra
-
+            guessed_words.append(letter)
+    
     update_display()
     
     if "_" not in guessed_word:
@@ -76,7 +85,7 @@ def end_game():
 
 root = tk.Tk()
 root.title("Juego del Ahorcado")
-root.geometry("600x400")  # Tamaño de la ventana
+root.geometry("650x500")  # Tamaño de la ventana
 
 # Cambiar el icono de la ventana
 root.iconbitmap("icono.ico")
@@ -101,10 +110,16 @@ img_label.pack()
 display_word = tk.StringVar()
 display_attempts = tk.StringVar()
 display_message = tk.StringVar()
+display_guessed_letters = tk.StringVar()
+display_failed_letters = tk.StringVar()
+display_guessed_words = tk.StringVar()
 
 tk.Label(right_frame, textvariable=display_word, font=("Helvetica", 20)).pack(pady=10)
 tk.Label(right_frame, textvariable=display_attempts, font=("Helvetica", 14)).pack(pady=5)
 tk.Label(right_frame, textvariable=display_message, font=("Helvetica", 14), fg="red").pack(pady=10)
+tk.Label(right_frame, textvariable=display_guessed_letters, font=("Helvetica", 14), fg="black").pack(pady=5)
+tk.Label(right_frame, textvariable=display_failed_letters, font=("Helvetica", 14), fg="black").pack(pady=5)
+tk.Label(right_frame, textvariable=display_guessed_words, font=("Helvetica", 14), fg="black").pack(pady=5)
 
 entry = tk.Entry(right_frame, font=("Helvetica", 14), width=2)  # Campo de texto para una sola letra
 entry.pack(pady=10)
@@ -113,10 +128,10 @@ entry.bind("<Return>", lambda event: guess_letter())
 guess_button = tk.Button(right_frame, text="Adivinar letra", command=guess_letter, font=("Helvetica", 14))
 guess_button.pack(pady=10)
 
-guess_word_button = tk.Button(right_frame, text="Adivinar palabra completa", command=enable_word_guess, font=("Helvetica", 14))
+guess_word_button = tk.Button(right_frame, text="Adivinar palabra", command=enable_word_guess, font=("Helvetica", 14))
 guess_word_button.pack(pady=10)
 
-play_again_button = tk.Button(left_frame, text="Jugar de Nuevo", command=iniciar_juego, font=("Helvetica", 14))
+play_again_button = tk.Button(left_frame, text="VOLVER A JUGAR", command=iniciar_juego, font=("Helvetica", 14))
 
 iniciar_juego()  # Iniciar el primer juego
 
