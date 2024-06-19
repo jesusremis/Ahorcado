@@ -14,8 +14,7 @@ Juego del ahorcado, con interfaz visual en ventana de Windows.
 - Muestra el historial de letras falladas/acertadas, así como el de palabras.
 - Puedes volver a jugar con un botón.
 
-## Imagen
-
+![Captura de pantalla de mi proyecto](https://github.com/jesusremis/Ahorcado/blob/master/Captura.PNG)
 
 
 ## Requisitos
